@@ -10,7 +10,9 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-
+app.get("/",(res,req)=>{
+    res.send("Welcome to the school database it is a assignment project made for educase by kavyanjali yadav!!!");
+})
 app.use(express.json());
 app.use(schoolRoutes);
 app.use(getSchoolRoutes); 
