@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db"); // Import the DB connection
+const db = require("../db"); // Import DB connection
 
 // Haversine formula to calculate distance between two coordinates
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -21,16 +21,16 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 };
 
 // Get Schools Route
-router.get("/listSchools", (req, res) => {
-  const { latitude, longitude } = req.query;
+router.get("/listSchools", async (req, res) => {
+  try {
+    const { latitude, longitude } = req.query;
 
-  if (!latitude || !longitude) {
-    return res.status(400).json({ error: "Latitude and longitude are required" });
-  }
+    if (!latitude || !longitude) {
+      return res.status(400).json({ error: "Latitude and longitude are required" });
+    }
 
-  const sql = "SELECT * FROM schools";
-  db.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+    const sql = "SELECT * FROM schools";
+    const [results] = await db.promise().query(sql);
 
     const userLat = parseFloat(latitude);
     const userLon = parseFloat(longitude);
@@ -41,10 +41,13 @@ router.get("/listSchools", (req, res) => {
         ...school,
         distance: calculateDistance(userLat, userLon, school.latitude, school.longitude),
       }))
-      .sort((a, b) => a.distance - b.distance);
+      .sort((a, b) => a.distance - b.distance); // Sort nearest to farthest
 
     res.json(sortedSchools);
-  });
+  } catch (err) {
+    console.error("Error fetching schools:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 module.exports = router; // Export the router
