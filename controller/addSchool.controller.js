@@ -13,7 +13,8 @@ router.post("/addSchool", async (req, res) => {
     const sql = "INSERT INTO schools (name, address, latitude, longitude) VALUES (?, ?, ?, ?)";
     const values = [name, address, parseFloat(latitude), parseFloat(longitude)];
 
-    const [result] = await db.execute(sql, values);
+    // Use db.promise() for async/await support
+    const [result] = await db.promise().execute(sql, values);
 
     res.status(201).json({ message: "✅ School added successfully", schoolId: result.insertId });
   } catch (err) {
