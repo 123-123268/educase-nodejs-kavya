@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db"); // Import DB connection
+const db = require("../db"); 
 
 // Haversine formula to calculate distance between two coordinates
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const toRadians = (degree) => (degree * Math.PI) / 180;
-  const R = 6371; // Radius of Earth in kilometers
+  const R = 6371; 
 
   const dLat = toRadians(lat2 - lat1);
   const dLon = toRadians(lon2 - lon1);

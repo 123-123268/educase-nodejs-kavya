@@ -15,16 +15,16 @@ const pool = mysql.createPool({
 
 pool.getConnection((err, connection) => {
   if (err) {
-    console.error("❌ Database connection failed:", JSON.stringify(err, null, 2));
+    console.error("Database connection failed:", JSON.stringify(err, null, 2));
     return;
   }
-  console.log("✅ Connected to Railway MySQL!");
+  console.log("Connected to Railway MySQL!");
 
   pool.query("SELECT DATABASE();", (error, results) => {
     if (error) {
-      console.error("⚠️ Query error:", JSON.stringify(error, null, 2));
+      console.error("Query error:", JSON.stringify(error, null, 2));
     } else {
-      console.log("🎉 Current Database:", results[0]);
+      console.log("Current Database:", results[0]);
     }
 
     connection.release(); // Release the connection

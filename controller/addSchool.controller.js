@@ -16,9 +16,9 @@ router.post("/addSchool", async (req, res) => {
     // Use db.promise() for async/await support
     const [result] = await db.promise().execute(sql, values);
 
-    res.status(201).json({ message: "✅ School added successfully", schoolId: result.insertId });
+    res.status(201).json({ message: "School added successfully", schoolId: result.insertId });
   } catch (err) {
-    console.error("❌ Error adding school:", err);
+    console.error("Error adding school:", err);
     res.status(500).json({ error: err.message });
   }
 });
